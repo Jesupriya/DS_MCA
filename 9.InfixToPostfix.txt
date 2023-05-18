@@ -1,0 +1,102 @@
+
+10. To write a c program that converts given infix expression into
+postfix expression using stack.
+
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#define MAX 20
+char stack[MAX];
+int top=0;
+char pop();
+void push(char);
+int prcd(char);
+int isoperator(char);
+void convertip(char [],char []);
+void main()
+{
+char infix[20],postfix[20];
+clrscr();
+printf("Enter the valid infix string:\n");
+scanf("%s",infix);
+convertip(infix,postfix);
+printf("The corresponding postfix string is: ");
+puts(postfix);
+getch();
+}
+void push(char item)
+{
+top++;
+stack[top]=item;
+}
+
+char pop()
+{
+char a;
+a=stack[top];
+top--;
+return a;
+}
+
+void convertip(char infix[],char postfix[])
+{
+int i,symbol,j=0;
+stack[++top]='#';
+for(i=0;i<strlen(infix);i++)
+{
+symbol=infix[i];
+if(symbol=='(')
+push(symbol);
+else if(symbol==')')
+{
+while(stack[top]!='(')
+{
+postfix[j]=pop();
+j++;
+}
+pop();//pop out (.
+}
+else if (isoperator(symbol)==1)
+{
+while(stack[top] != '#' && prcd(symbol)<=prcd(stack[top]))
+{
+postfix[j]=pop();
+j++;
+}
+push(symbol);
+}//end of else.
+else if(isoperator(symbol)==0)
+{
+postfix[j]=symbol;
+j++;
+}
+}//end of for.
+while(stack[top]!='#')
+{
+postfix[j]=pop();
+j++;
+}
+postfix[j]='\0';//null terminate string.
+}
+int prcd(char symbol)
+{
+if(symbol == '^' || symbol == '$')
+return 6;
+else if(symbol == '*' || symbol == '/')
+return 4;
+else if(symbol == '+' || symbol == '-')
+return 2;
+else if(symbol == '(' || symbol == ')' || symbol == '#')
+return 1;
+else
+return 0;
+}
+int isoperator(char symbol)
+{
+if(symbol == '^' || symbol == '$' || symbol == '+' || symbol == '-' || symbol == '*' ||
+symbol
+== '/' || symbol == '(' || symbol == ')')
+return 1;
+else
+return 0;
+}

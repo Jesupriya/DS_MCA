@@ -1,0 +1,172 @@
+#include<stdio.h>
+#include<conio.h>
+#include<alloc.h>
+typedef struct node
+{
+struct node *left;
+int info;
+struct node *right;
+}
+stype;
+stype *root=NULL,*par,*cur,*newnode;
+initialize();
+insert(int elem);
+inorder(stype *root);
+delete_bst(int elem);
+
+void main()
+{
+int choice,number;
+do
+{
+clrscr();
+printf("\n\t\tBinary Search Tree operations");
+printf("\n1.Initializing BST to empty");
+printf("\n2.Inserting an element into BST");
+printf("\n3.Deleting an element from BST");
+printf("\n4.Display the tree elements : ");
+printf("\n5.Exit");
+printf("\nEnter your choice : ");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1 : initialize();
+break;
+case 2 : printf("\nEnter number to insert into BST : ");
+scanf("%d",&number);
+insert(number);
+break;
+case 3 : printf("\nEnter number to delete from BST : ");
+scanf("%d",&number);
+delete_bst(number);
+break;
+case 4 : inorder(root);
+break;
+default : printf("\nProgram Terminated");
+}
+getch();
+}while(choice>0 && choice<5);
+}
+initialize()
+{
+root=NULL;
+printf("\nThe Binary Search Tree is initialized");
+return 0;
+}
+insert(int elem)
+{
+newnode=(stype *)malloc(sizeof(stype));
+newnode->info=elem;
+newnode->left=NULL;
+newnode->right=NULL;
+if(root == NULL)
+root = newnode;
+else
+{
+cur = root;
+while(cur !=NULL)
+{
+par=cur;
+if(elem<=cur->info)
+cur=cur->left;
+else
+cur=cur->right;
+}
+if(elem<=par->info)
+par->left=newnode;
+else
+par->right=newnode;
+}
+printf("\nThe element inserted into BST successfully");
+return 0;
+}
+inorder(stype *root)
+{
+if(root!=NULL)
+{
+inorder(root->left);
+printf("%4d",root->info);
+inorder(root->right);
+}
+return 0;
+}
+delete_bst(int elem)
+{
+stype *temp;
+if (root == NULL)
+{
+printf("\nTree is empty, hence deletion cannot be performed");
+return 0;
+}
+cur = root;
+par = NULL;
+while(cur != NULL && cur->info !=elem)
+{
+par = cur;
+if (elem <= (cur->info) )
+cur = cur->left;
+else
+cur = cur->right;
+}
+if (cur == NULL)
+{
+printf("\nGiven element is not found in BST and hence it cannot be deleted");
+return 0;
+}
+if ( cur == root )
+{
+if (cur->left == NULL && cur->right == NULL)
+root = NULL;
+else if (cur->left != NULL && cur->right == NULL)
+root = root->left;
+else if (cur->left == NULL && cur->right != NULL)
+root = root->right;
+else
+{
+temp = (root->left);
+root = root->right;
+cur = root;
+while ( cur->left != NULL)
+cur = cur->left;
+cur->left = temp;
+}
+}
+else
+{
+if ( cur->left == NULL && cur->right == NULL)
+{
+if( (cur->info) <= (par->info))
+par->left = NULL;
+else
+par->right = NULL;
+}
+else if ( cur->left != NULL && cur->right == NULL)
+{
+if( (cur->info) <= (par->info))
+par->left = cur->left;
+else
+par->right = cur->left;
+}
+else if ( cur->left == NULL && cur->right != NULL)
+{
+if( (cur->info) <= (par->info))
+par->left = cur->right;
+else
+par->right = cur->right;
+}
+else
+{
+temp = (cur->left);
+if( (cur->info) <= (par->info))
+par->left = cur->right;
+else
+par->right = cur->right;
+cur = (cur->right);
+while( cur->left != NULL)
+cur = cur->left;
+cur->left = temp;
+}
+}
+printf("\nThe element deleted from BST successfully");
+return 0;
+}

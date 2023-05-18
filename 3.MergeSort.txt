@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include<conio.h> 
+#include<stdlib.h>
+
+int merge_sort(int  [],int,int);
+int merge(int [],int, int , int);
+
+int main() 
+{  
+int i,n,a[20]; 
+//clrscr(); 
+printf("\nEnter number of elements : ");  
+scanf("%d",&n); 
+printf("\n Enter elements : ");  
+for(i=1;i<=n;i++) 
+scanf("%d",&a[i]); 
+merge_sort(a,1,n); 
+printf("\n The descending sorted elements are : "); 
+for(i=n;i>0;i--)  
+printf("%3d",a[i]); 
+getch();
+} 
+ 
+int merge_sort(int a [],int start,int finish) 
+{  
+int size,mid; 
+size=finish-start+1; 
+ if(size<=1)   
+return 0;  
+mid=(start+finish)/2;
+merge_sort(a,start,mid);  
+merge_sort(a,mid+1,finish);  
+merge(a,start,mid+1,finish); 
+return 0; 
+} 
+
+int merge(int a[],int s, int m, int f) 
+{
+int i,j,k,temp[20]; 
+ i=s; j=m; k=1;  
+while(i<m && j<=f)  
+{   
+if(a[i]<=a[j])   
+{    
+temp[k]=a[i];    
+i=i+1;k=k+1;   
+}   
+else   
+{    
+temp[k]=a[j];    
+j=j+1;k=k+1;   
+}  
+}  
+if(i >= m)  
+{   
+while(j<=f)   
+{    
+temp[k]=a[j];    
+j=j+1; k=k+1;   
+}  
+}  
+else  
+{   
+while(i<m)   
+{    
+temp[k]=a[i];    
+i=i+1;k=k+1;   
+}  
+}  
+for(i=1;i<=k-1;i++)   
+a[s+i-1]=temp[i];  
+return 0; 
+} 
+ 

@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<conio.h> 
+int bubble_sort(int a[],int n)
+{
+int i,j,temp;
+for(i=0;i<n-1;i++)
+ {
+ for(j=0;j<=n-1-i;j++)
+ {
+ if(a[j]>a[j+1])
+ {
+ temp = a[j];
+ a[j] = a[j+1];
+ a[j+1]= temp;
+ }
+ }
+ }
+printf("\nThe sorted list is : ");
+
+for(i=0;i<n;i++)
+printf("%5d",a[i]);
+
+return a,n;
+}
+int binarySearch(int item, int a[],int low,int high)
+{
+int mid;
+if(low<=high)
+ {
+ mid=(low+high)/2;
+ if(a[mid]==item)
+ return mid+1;
+ if(a[mid]>item)
+ return binarySearch(item,a,low,mid-1);
+ return binarySearch(item,a,mid+1,high);
+}
+return -1;
+}
+void main()
+{
+ int a[20],n,pos,item, i;
+//clrscr();
+printf("\t\t Enter the array size : \n");
+scanf("%d",&n);
+printf("\t\t Enter the elements for an array : \n");
+ for(i=0;i<n;i++)
+scanf("%d",&a[i]);
+// Sorting the elements.
+ bubble_sort(a,n);
+printf("\n\t Enter the key element : \n");
+scanf("%d",&item);
+ pos=binarySearch(item,a,0,n-1);
+ if(pos==-1)
+ printf("\n\t\t Item not found");
+else
+ printf("\n\t\t Item found at position %d",pos);
+ getch();
+}

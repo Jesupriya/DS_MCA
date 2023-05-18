@@ -1,0 +1,163 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+int initialize_list();
+
+int empty_list();
+
+int display_list();
+
+int insert_list(int elem,int pos);
+
+int delete_list(int pos);
+
+int traverse_list();
+typedef struct llist
+{
+int info;
+struct llist *link;
+}stype;
+stype *head;
+int len = 0;
+void main()
+{
+int ch=1, pos, elem;
+while(ch>0 && ch<7)
+{
+printf("\n\n\t This is Singly Linked List Program... \n");
+printf("\t -------------------------------------\n");
+printf("\n\t 1.Initializing list to empty");
+printf("\n\t 2.Determining whether the list is empty or not");
+printf("\n\t 3.Displaying length of the list");
+printf("\n\t 4.Inserting given element at particular position of the Linked list");
+printf("\n\t 5.Deleting the given element from the Linked list");
+printf("\n\t 6.Traversing the Linked list elements");
+printf("\n\t 7.Exit \n");
+printf("\n\t Enter your choice...");
+scanf("%d",&ch);
+switch(ch)
+{
+case 1 : initialize_list();
+break;
+case 2 : empty_list();
+break;
+case 3 : display_list();
+break;
+case 4 : printf("\n\t Enter element to be inserted : ");
+scanf("%d",&elem);
+printf("\n\t Enter position to be inserted : ");
+scanf("%d",&pos);
+insert_list(elem,pos);
+break;
+case 5 : printf("\n\t Enter position for deletion : ");
+scanf("%d",&pos);
+delete_list(pos);
+break;
+case 6 : traverse_list();
+break;
+default : printf("\n\t Program Terminated : ");
+break;
+}
+getch();
+}
+}
+int initialize_list()
+{
+head = NULL;
+len = 0;
+printf("\n\t List is initialized... ");
+return 0;
+}
+int empty_list()
+{
+if (len == 0)
+printf("\n\t List is empty... ");
+else
+printf("\n\t List is not empty... ");
+return 0;
+}
+int display_list()
+{
+printf("\n\t The length of the given Linked list is : %d ",len);
+return 0;
+}
+int insert_list(int elem,int pos)
+{
+stype *node,*p,*q;
+int i;
+if(pos<1 || pos>len+1)
+{
+printf("\n\t The position is invalid, hence no element to be inserted... ");
+return 0;
+}
+node = (stype *)malloc(sizeof(stype));
+node->info = elem;
+if ( pos == 1)
+{
+node->link = head;
+head = node;
+}
+else
+{
+p = head;
+for(i=1;i<=pos-2;i++)
+p = p->link;
+q = p->link;
+p->link = node;
+node->link = q;
+}
+len = len + 1;
+printf("\n\t Element is inserted successfully... ");
+return 0;
+}
+int delete_list(int pos)
+{
+stype *temp,*p,*q;
+int i;
+if ( len == 0)
+{
+printf("\n\t The given Singly Linked List is empty... ");
+return 0;
+}
+if( pos<1 || pos>len )
+{
+printf("\n\t Linked List Position is invalid... ");
+return 0;
+}
+if (pos == 1)
+{
+temp = head;
+head = head->link;
+free(temp);
+}
+else
+{
+p = head;
+for(i=1;i<=pos-2;i++)
+p = p->link;
+temp = p->link;
+q = (p->link)->link;
+p->link = q;
+free(temp);
+}
+len = len - 1;
+printf("\n\t Element deleted successfully... ");
+return 0;
+}
+int traverse_list()
+{
+stype *p;
+if (len == 0)
+{
+printf("\n\t The Linked list is empty... ");
+return 0;
+}
+printf("\n The elements in the Linked list are : ");
+p = head;
+while( p!= NULL)
+{
+printf("%4d",p->info);
+p = p->link;
+}
+return 0;
+}
